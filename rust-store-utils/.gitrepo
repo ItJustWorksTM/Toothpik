@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@git.chalmers.se:courses/dit355/2020/group-4/rust-store-utils
+	branch = master
+	commit = 34e5f30f75bd13ef70567b35584172e810cd80ce
+	parent = d5c7257d6f2c4033c0cce491a04b6e4051543f4c
+	method = merge
+	cmdver = 0.4.3
