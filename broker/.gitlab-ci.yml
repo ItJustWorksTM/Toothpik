@@ -1,0 +1,16 @@
+image: haskell:8.8.4
+
+stages:
+  - check
+
+check:
+  stage: check
+  tags:
+    - docker
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+  script:
+    - ./setup.sh
+    - cd build
+    - stack --resolver lts-16.27 build
+
