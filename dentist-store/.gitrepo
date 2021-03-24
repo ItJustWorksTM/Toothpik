@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@git.chalmers.se:courses/dit355/2020/group-4/dentist-store
+	branch = master
+	commit = dfa09f3c173f81b7471257b37e40f4b91858604b
+	parent = 6de3107e141a932a4926416d748a1ad19c42d460
+	method = merge
+	cmdver = 0.4.3
