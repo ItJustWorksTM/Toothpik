@@ -1,0 +1,18 @@
+[package]
+name = "appointment_store"
+version = "0.1.0"
+authors = ["_as"]
+edition = "2018"
+
+[dependencies]
+rumqttc = "0.2.0"
+tokio = { version = "0.2", features = ["full"] }
+sqlx = { version = "0.4.*", default-features = false, features = [ "runtime-tokio-rustls", "sqlite", "chrono" ] }
+serde = { version = "1.0", features = ["derive"] }
+macro_rules_attribute = "0.0.1"
+store-utils = { path = "external/rust-store-utils" }
+lazy_static = "1.4.0"
+paste = "1.0.3"
+regex = "1"
+uuid = { version = "0.8", features = ["serde", "v4"] }
+chrono = "0.4"

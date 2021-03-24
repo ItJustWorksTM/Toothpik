@@ -1,0 +1,25 @@
+image: alpine:edge
+
+before_script:
+  - apk add git
+  - git config --global url."https://${DEPLOY_USER}:${DEPLOY_TOKEN}@git.chalmers.se".insteadOf https://git.chalmers.se
+  - git submodule sync --recursive && git submodule update --init --recursive
+
+cache:
+  key: cargo-crates
+  paths:
+    - .cargo
+
+stages:
+  - check
+
+check:
+  stage: check
+  tags:
+    - docker
+  variables:
+    CARGO_HOME: .cargo
+  script:
+    - apk add cargo pkgconfig openssl-dev
+    - cargo build
+    - cargo test
