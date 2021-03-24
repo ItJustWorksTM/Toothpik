@@ -1,0 +1,31 @@
+# Render with https://sequencediagram.org/
+title Toothpik™ - Registeration sequence
+
+participant Client
+participant Broker
+participant User Store
+participant External SMTP Relay
+
+
+note over Client,Broker: We assume the client is\n anonymously connected\n to the broker
+Client->User Store: MQTT PUB "store/user/public/$anonid/register"\n  where $anonid is the MQTT client identifier in use\nand with a User structure as CBOR body
+
+alt Success
+Client<-User Store: MQTT PUB "client/$anonid/store/user/register"\n  where $anonid is the requester's client identifier\nand { "id": "$uuid" } as CBOR body\n  where $uuid is the system id for the newly created user
+
+alt Email verification enabled
+
+User Store->External SMTP Relay: Email with verification code\nto address provided during registration
+Client->User Store: MQTT PUB "store/user/public/$anonid/validate"\n  where $anonid is the MQTT client identifier in use\nand with a UserValidation structure as CBOR body
+
+alt Correct code
+Client<-User Store: MQTT PUB "client/$anonid/store/user/validate"\n  where $anonid is the requester's client identifier\nand { "id": "$uuid" } as CBOR body\n  where $uuid is the system id for the user
+else
+Client<-User Store: MQTT PUB "client/$anonid/store/user/validate"\n  where $anonid is the requester's client identifier\nand { "error": "$description" } as CBOR body\n  where $description details the error condition
+end
+
+else
+Client<-User Store: MQTT PUB "client/$anonid/store/user/register"\n  where $anonid is the requester's client identifier\nand { "error": "$description" } as CBOR body\n  where $description details the error condition
+end
+
+end

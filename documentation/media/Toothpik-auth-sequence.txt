@@ -1,0 +1,40 @@
+# Render with https://sequencediagram.org/
+title Toothpik™ - Authorization procedure for clients with a pre-registered user 
+
+participant Client
+participant Broker+Authenticator
+participant User Store
+
+note over Client,Broker+Authenticator:  We assume the client is\n anonymously connected\n to the broker
+
+Client->Broker+Authenticator: MQTT DISCONNECT
+
+Client->Broker+Authenticator: MQTT CONNECT\nwith username, password and TOTP code but with the same ClientID value\n used in the previous (anonymous) connection\n(this ClientID value will be referred to as $anonid)
+note over Broker+Authenticator,User Store: "$authid" is the unique identifier\nof the authenticator itself (also a UUIDv4)
+Broker+Authenticator->User Store:MQTT PUBLISH store/user/$authid/secret\nwith username as payload
+
+alt No user with such username exists
+
+Broker+Authenticator<-User Store:MQTT PUBLISH auth/$authid/reply/secret\nwith username and "error": null as payload
+
+
+
+Client<-Broker+Authenticator:MQTT CONNACK\nConnect return code 4\n(Connection Refused, bad user name or password)
+else User with such username exists
+
+Broker+Authenticator<-User Store:MQTT PUBLISH auth/$authid/reply/secret\nwith username, UUIDv4 (the real user id),\nand the TOTP secret as payload
+
+
+alt Password or TOPT code is incorrect
+Client<-Broker+Authenticator:MQTT CONNACK\nConnect return code 4\n(Connection Refused, bad user name or password)
+else Credentials correct
+
+Client<-Broker+Authenticator:MQTT CONNACK\nConnect return code 0\n(Connection Accepted)
+
+note right of Client: In our system, the client needs to know their real UUID\nIt allows them to make requests and get the response back safely\nThus, they need to switch from their anonymous UUID to their real one.
+
+Client->User Store:MQTT PUBLISH store/user/$anonid/my_id\nwith username as payload
+Client<-User Store:MQTT PUBLISH client/$anonid/reply/store/user/my_id\nwith real UUID as payload 
+end
+
+end

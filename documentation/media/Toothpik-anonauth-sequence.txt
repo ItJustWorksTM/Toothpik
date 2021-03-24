@@ -1,0 +1,14 @@
+# Render with https://sequencediagram.org/ and and hide padding participants
+title  Toothpik™ - Anonymous authentication procedure for clients 
+
+participant PadLeft
+participant Client
+participant Broker+Authenticator
+participant PadRight
+
+note over Client,Broker+Authenticator: We assume the client is currently not connected to the broker
+
+Client->Broker+Authenticator: MQTT CONNECT\nwith a UUIDv4 in the ClientID field\nand no credentials
+Broker+Authenticator->Client: MQTT CONNACK\nConnect return code 0\n(Connection accepted)
+
+note over Client,Broker+Authenticator: The client is now able to perform requests\non the public endpoints of the system backend
