@@ -1,0 +1,42 @@
+.form-input-group {
+  position: relative;
+  height: 50px;
+  margin-bottom: 1rem;
+}
+.form-input {
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  border: none;
+  outline: none !important;
+}
+.form-label {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-bottom: 1px solid;
+  border-color: var(--gray-600) !important;
+}
+.label-content {
+  position: absolute;
+  bottom: 0.3125rem;
+  left: 0.75rem;
+  transition: all 0.3s ease;
+}
+.form-input:focus + .form-label .label-content,
+.form-input:valid + .form-label .label-content {
+  transform: translateY(-60%);
+  color: var(--cyan);
+  outline: none !important;
+}
+
+input.form-control:focus,
+input[type='text']:focus,
+input[type='password']:focus,
+[type='text'].form-control:focus,
+[type='password'].form-control:focus {
+  box-shadow: inset 0 0px 0 var(--gray-200);
+}

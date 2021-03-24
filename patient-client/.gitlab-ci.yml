@@ -1,0 +1,19 @@
+image: node:slim
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+
+stages:
+  - check
+
+check:
+  stage: check
+  tags:
+    - docker
+  script:
+    - npm i
+    - npm run build
+

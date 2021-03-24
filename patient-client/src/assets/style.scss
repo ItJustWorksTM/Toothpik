@@ -1,0 +1,13 @@
+// colors
+$gray-600: #707070;
+$gray-200:  #ddd;
+$indigo: #144354;
+$pink:  #F3EDEF;
+
+$theme-colors: (
+  "light-red": #FFE5E5,
+  "light-gray": #f0f0f0
+);
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
